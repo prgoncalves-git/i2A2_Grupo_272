@@ -1,0 +1,1131 @@
+{
+  "name": "Automação VR/VA (Desafio 4) teste 1",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "triggerOn": "specificFolder",
+        "folderToWatch": {
+          "__rl": true,
+          "value": "1uTDyjHh0vLPFB05nvENpNi365-4LU2Wb",
+          "mode": "list",
+          "cachedResultName": "I2A2 - Desafio ",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1uTDyjHh0vLPFB05nvENpNi365-4LU2Wb"
+        },
+        "event": "fileUpdated",
+        "options": {}
+      },
+      "id": "b7885d4c-7dd1-4367-9ddb-0d4eb8d420d1",
+      "name": "Google Drive Trigger",
+      "type": "n8n-nodes-base.googleDriveTrigger",
+      "typeVersion": 1,
+      "position": [
+        -3380,
+        -1380
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "hybUCeYXbV4apE5k",
+          "name": "Google Drive account Intelligentio.111111 Imobiliaria"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "functionCode": "return items.filter(i => i.binary && i.binary.data && (i.binary.data.data || i.binary.data.id));"
+      },
+      "id": "a6c4966d-bd39-4d58-93ed-b24150d3404b",
+      "name": "Ensure Binary FERIAS",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        -2160,
+        -880
+      ]
+    },
+    {
+      "parameters": {
+        "functionCode": "return items.filter(i => i.binary && i.binary.data && (i.binary.data.data || i.binary.data.id));"
+      },
+      "id": "b6e395e0-da2f-4ee1-955c-03cc5988ccf8",
+      "name": "Ensure Binary DESLIGADOS",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        -1940,
+        -680
+      ]
+    },
+    {
+      "parameters": {
+        "functionCode": "return items.filter(i => i.binary && i.binary.data && (i.binary.data.data || i.binary.data.id));"
+      },
+      "id": "cb8dc493-1985-47dc-bd80-9ad2433d03f6",
+      "name": "Ensure Binary ADMITIDOS",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        -1760,
+        -480
+      ]
+    },
+    {
+      "parameters": {
+        "functionCode": "return items.filter(i => i.binary && i.binary.data && (i.binary.data.data || i.binary.data.id));"
+      },
+      "id": "553a5e44-897c-4684-8475-42f078586f91",
+      "name": "Ensure Binary SINDICATO",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        -1540,
+        -300
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$json[\"mimeType\"]}}",
+              "value2": "application/zip"
+            }
+          ]
+        }
+      },
+      "id": "a7efe679-4ba6-4994-ba05-30f79c1fa6ce",
+      "name": "IF mime is zip1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        -3180,
+        -1380
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "operation": "download",
+        "fileId": "={{$json[\"id\"]}}",
+        "options": {}
+      },
+      "id": "1dd171e6-3940-446c-a169-76210c368ceb",
+      "name": "Google Drive (Download)1",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 1,
+      "position": [
+        -2940,
+        -1400
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "hybUCeYXbV4apE5k",
+          "name": "Google Drive account Intelligentio.111111 Imobiliaria"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "1ea08977-c63a-4386-9b4b-7f1a1b87335c",
+      "name": "Compression (Decompress)1",
+      "type": "n8n-nodes-base.compression",
+      "typeVersion": 1,
+      "position": [
+        -2780,
+        -1400
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$binary.data.fileName}}",
+              "operation": "regex",
+              "value2": "\\bATIVOS\\b"
+            }
+          ]
+        }
+      },
+      "id": "50951612-9cd1-43f6-8525-5bba2f34f7d6",
+      "name": "IF ATIVOS1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        -2560,
+        -1040
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$binary.data.fileName}}",
+              "operation": "regex",
+              "value2": "\\bFERIAS\\b|\\bFÉRIAS\\b|F_RIAS\\b|\\bFRIAS\\b"
+            }
+          ]
+        }
+      },
+      "id": "ebc6f231-8f55-48a4-8a60-27e3595bc439",
+      "name": "IF FERIAS1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        -2360,
+        -860
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$binary.data.fileName}}",
+              "operation": "regex",
+              "value2": "\\bDESLIGADOS\\b"
+            }
+          ]
+        }
+      },
+      "id": "1150b410-469c-4073-a399-f95798c9e6a7",
+      "name": "IF DESLIGADOS1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        -2160,
+        -660
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$binary.data.fileName}}",
+              "operation": "contains",
+              "value2": "\\bADMITIDOS\\b|\\bADMISSAO\\b|\\bADMISSÃO\\b|\\bADMISSÇO ABRIL\\b|\\bADMISSÇO_ABRIL\\b"
+            }
+          ]
+        }
+      },
+      "id": "4870acab-360c-4db6-9bbe-889ae25ab5dd",
+      "name": "IF ADMITIDOS1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        -1940,
+        -460
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$binary.data.fileName}}",
+              "operation": "regex",
+              "value2": "\\bSINDICATO\\b|\\bSINDICATO_VALOR\\b|\\bVALOR\\b|\\bBase sindicato x valor\\b"
+            }
+          ]
+        }
+      },
+      "id": "6c627547-e0e1-4082-b16b-17112650b4d4",
+      "name": "IF SINDICATO1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        -1740,
+        -280
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "2efa3601-dd44-4ebb-9e10-179c6130b5f9",
+      "name": "Read ATIVOS1",
+      "type": "n8n-nodes-base.spreadsheetFile",
+      "typeVersion": 2,
+      "position": [
+        -2160,
+        -1060
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "e566b1d4-cc37-4aaf-be56-766d168df786",
+      "name": "Read FERIAS1",
+      "type": "n8n-nodes-base.spreadsheetFile",
+      "typeVersion": 2,
+      "position": [
+        -1960,
+        -880
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "8c0f4b2c-ceae-41e9-9ab3-8945cc17952f",
+      "name": "Read DESLIGADOS1",
+      "type": "n8n-nodes-base.spreadsheetFile",
+      "typeVersion": 2,
+      "position": [
+        -1760,
+        -680
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "8a968217-85be-4762-85b8-29fc43d88f10",
+      "name": "Read ADMITIDOS1",
+      "type": "n8n-nodes-base.spreadsheetFile",
+      "typeVersion": 2,
+      "position": [
+        -1580,
+        -480
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "2b6cc9a2-669c-43f9-972a-fb00522bfece",
+      "name": "Read SINDICATO1",
+      "type": "n8n-nodes-base.spreadsheetFile",
+      "typeVersion": 2,
+      "position": [
+        -1380,
+        -300
+      ]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "dataset",
+              "value": "ATIVOS"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a21d8486-e0e4-471c-895b-0a3ee585d442",
+      "name": "Tag ATIVOS1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        -1960,
+        -1060
+      ]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "dataset",
+              "value": "FERIAS"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "35055664-8d7c-44a7-9efb-643a8cbfeafd",
+      "name": "Tag FERIAS1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        -1780,
+        -880
+      ]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "dataset",
+              "value": "DESLIGADOS"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "24ff566f-8164-4f78-8bf8-24209a3fbeb7",
+      "name": "Tag DESLIGADOS1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        -1580,
+        -680
+      ]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "dataset",
+              "value": "ADMITIDOS"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "c1610ad5-617d-44a5-ab4c-0fc93d3bff32",
+      "name": "Tag ADMITIDOS1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        -1380,
+        -480
+      ]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "dataset",
+              "value": "SINDICATO_VALOR"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "35241afc-c4db-49ab-970d-3b7ced41349f",
+      "name": "Tag SINDICATO1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        -1180,
+        -300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "7b32db2c-b1c2-477b-8401-a9b2a2f13c64",
+      "name": "Merge ",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 1,
+      "position": [
+        -1580,
+        -1040
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "50614a2a-0da8-4450-9262-9c189ed34c29",
+      "name": "Merge 5",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 1,
+      "position": [
+        -1380,
+        -700
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "76a164f1-4218-475a-b25f-2a15f53b5f1a",
+      "name": "Merge 6",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 1,
+      "position": [
+        -1180,
+        -500
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "f008fee4-c4b2-4ac8-a047-f643763bcabf",
+      "name": "Merge 7",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 1,
+      "position": [
+        -960,
+        -420
+      ]
+    },
+    {
+      "parameters": {
+        "functionCode": "return items.filter(i => i.binary && i.binary.data && (i.binary.data.data || i.binary.data.id));"
+      },
+      "id": "92d54a21-6622-45a8-b657-b96af5df9e27",
+      "name": "Ensure Binary FERIAS1",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        -2360,
+        -1060
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// ===== Build Payload robusto =====\n// Defina o mês aqui\nconst COMPETENCIA = '2025-08';\nconst FERIADOS = []; // ex: ['2025-08-15']\n\nfunction norm(s){ return (s ?? '').toString().normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toUpperCase(); }\n\nfunction bucket(j){\n  const ds = norm(j.dataset || j.DATASET || j.tipo || j.TIPO || '');\n  if (ds.includes('SIND')) return 'sindicato_valor';\n  if (ds.includes('FERIA')) return 'ferias';\n  if (ds.includes('DESLIG')) return 'desligados';\n  if (ds.includes('ADMIT')) return 'admitidos';\n  if (ds.includes('ATIV')) return 'ativos';\n\n  // heurística por colunas\n  const keys = Object.keys(j).map(k=>norm(k));\n  if (keys.some(k=>k.includes('VALOR_DIARIO_VR')||k==='VALOR'||k==='VALOR_DIA'||k==='VR_DIA')) return 'sindicato_valor';\n  if (keys.some(k=>k.includes('DESLIG'))) return 'desligados';\n  if (keys.some(k=>k.includes('ADMIS'))) return 'admitidos';\n  if (keys.some(k=>k.includes('FERIA')||k==='INICIO'||k==='FIM')) return 'ferias';\n  return 'ativos';\n}\n\nconst out = { competencia: COMPETENCIA, feriados: FERIADOS, ativos: [], ferias: [], desligados: [], admitidos: [], sindicato_valor: [] };\n\nfor (const it of items) {\n  const j = it.json || {};\n  if (Array.isArray(j.ativos) && Array.isArray(j.ferias) && Array.isArray(j.desligados) && Array.isArray(j.admitidos) && Array.isArray(j.sindicato_valor)) {\n    return [{ json: { competencia: j.competencia || COMPETENCIA, feriados: j.feriados || FERIADOS, ...j } }];\n  }\n  out[bucket(j)].push(j);\n}\n\nreturn [{ json: out }];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -760,
+        -420
+      ],
+      "id": "aaf6b228-5162-4ff4-9097-035bdc93ff27",
+      "name": "Build Payload"
+    },
+    {
+      "parameters": {
+        "jsCode": "// pega todos os itens que chegaram neste nó\nconst all = $input.all().map(i => i.json);\n\n// segurança: se vier vazio, gera só cabeçalho\nconst rows = all.map(j => ({\n  MATRICULA:           j.MATRICULA ?? '',\n  NOME:                j.NOME ?? '',\n  SINDICATO:           j.SINDICATO ?? '',\n  UF:                  j.UF ?? '',\n  COMPETENCIA:         j.COMPETENCIA ?? $items('Build Payload')[0]?.json?.competencia ?? 'YYYY-MM',\n  DIAS_UTEIS_CALCULADOS: j.DIAS_UTEIS_CALCULADOS ?? 0,\n  VALOR_DIARIO_VR:     j.VALOR_DIARIO_VR ?? 0,\n  VR_TOTAL:            j.VR_TOTAL ?? 0,\n  CUSTO_EMPRESA:       j.CUSTO_EMPRESA ?? 0,\n  DESCONTO_COLAB:      (j.DESCONTO_COLAB ?? j.DESCONTO_COLABORADOR ?? 0),\n  OBS:                 j.OBS ?? ''\n}));\n\nfunction toCSV(arr){\n  if (!arr.length) {\n    // mesmo sem linhas, devolve cabeçalho padrão\n    const header = [\"MATRICULA\",\"NOME\",\"SINDICATO\",\"UF\",\"COMPETENCIA\",\"DIAS_UTEIS_CALCULADOS\",\"VALOR_DIARIO_VR\",\"VR_TOTAL\",\"CUSTO_EMPRESA\",\"DESCONTO_COLAB\",\"OBS\"];\n    return header.join(',') + '\\n';\n  }\n  const headers = Object.keys(arr[0]);\n  const esc = v => (v ?? '').toString().replace(/\"/g, '\"\"');\n  const lines = [headers.join(',')];\n  for (const r of arr) lines.push(headers.map(h => `\"${esc(r[h])}\"`).join(','));\n  return lines.join('\\n');\n}\n\nconst csv = toCSV(rows);\n\nconst competencia =\n  rows[0]?.COMPETENCIA ??\n  $items('Build Payload')[0]?.json?.competencia ??\n  'YYYY-MM';\n\nconst fileName = `VR_Mensal_${competencia}.csv`;\n\nreturn [{\n  json: { fileName, linhas: rows.length },\n  binary: {\n    file: {\n      data: Buffer.from(csv, 'utf8').toString('base64'),\n      fileName,\n      mimeType: 'text/csv',\n    }\n  }\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -380,
+        -540
+      ],
+      "id": "42017f0c-2446-408a-9b28-12a528ae3ce5",
+      "name": "Gerar CSV Resultado",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const all = $input.all().map(i => i.json);\n\nconst rows = all.map(j => ({\n  MATRICULA: j.MATRICULA ?? '',\n  NOME:      j.NOME ?? '',\n  REGRA:     j.REGRA ?? '',\n  DETALHE:   j.DETALHE ?? '',\n}));\n\nfunction toCSV(arr){\n  const headers = [\"MATRICULA\",\"NOME\",\"REGRA\",\"DETALHE\"];\n  const esc = v => (v ?? '').toString().replace(/\"/g,'\"\"');\n  const lines = [headers.join(',')];\n  for (const r of arr) lines.push(headers.map(h => `\"${esc(r[h])}\"`).join(','));\n  return lines.join('\\n');\n}\n\nconst csv = toCSV(rows);\n\nconst competencia =\n  all[0]?.COMPETENCIA ??\n  $items('Build Payload')[0]?.json?.competencia ??\n  'YYYY-MM';\n\nconst fileName = `VR_Validacoes_${competencia}.csv`;\n\nreturn [{\n  json: { fileName, linhas: rows.length },\n  binary: {\n    file_validacoes: {\n      data: Buffer.from(csv, 'utf8').toString('base64'),\n      fileName,\n      mimeType: 'text/csv',\n    }\n  }\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -380,
+        -300
+      ],
+      "id": "863e53d1-8af2-424a-8177-c403fbe2d42a",
+      "name": "Validações + CSV",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// ===== VR_Mensal (1 saída) =====\n\n// helpers\nconst rmA = s => (s ?? '').toString().normalize('NFD').replace(/[\\u0300-\\u036f]/g,'');\nconst norm = k => rmA(String(k||'')).toUpperCase().trim().replace(/\\s+/g,'_');\nconst get = (row, keys)=>{const m={};Object.keys(row||{}).forEach(k=>m[norm(k)]=row[k]);for(const k of keys){const v=m[norm(k)];if(v!==undefined&&v!==null&&v!=='')return String(v).trim();}return undefined;};\n\nfunction excelSerialToDate(n){ const base = new Date(Date.UTC(1899,11,30)); return new Date(base.getTime() + Number(n)*86400000); }\nfunction toISOflex(v){\n  if (v == null || v === '') return null;\n  if (!isNaN(v) && String(v).trim() !== '') { const n = Number(v); if (n > 20000 && n < 80000) return excelSerialToDate(n).toISOString().slice(0,10); }\n  const d = new Date(v); if (!isNaN(d)) return d.toISOString().slice(0,10);\n  return null;\n}\n\n// payload\nconst p = items[0]?.json || {};\nconst competencia = p.competencia || 'YYYY-MM';\nconst [yy,mm] = competencia.split('-').map(Number);\nconst first = new Date(yy, mm-1, 1), last = new Date(yy, mm, 0);\nconst cutoff = 15, pEmp = 0.8, pCol = 0.2;\n\nconst feriados = Array.isArray(p.feriados) ? p.feriados : [];\nconst isHoliday = iso => feriados.includes(iso);\nfunction bDays(s,e){let d=new Date(s),f=new Date(e),c=0;while(d<=f){const w=d.getDay(),iso=d.toISOString().slice(0,10);if(w>=1&&w<=5&&!isHoliday(iso))c++;d.setDate(d.getDate()+1);}return c;}\nfunction overlap(aS,aE,bS,bE){const s=new Date(Math.max(+aS,+bS));const e=new Date(Math.min(+aE,+bE));if(s>e)return 0;return bDays(s.toISOString().slice(0,10),e.toISOString().slice(0,10));}\n\nconst ATIVOS = Array.isArray(p.ativos)?p.ativos:[];\nconst FERI   = Array.isArray(p.ferias)?p.ferias:[];\nconst DESL   = Array.isArray(p.desligados)?p.desligados:[];\nconst ADMIT  = Array.isArray(p.admitidos)?p.admitidos:[];\nconst SINDB  = Array.isArray(p.sindicato_valor)?p.sindicato_valor:[];\n\n// UF helpers\nconst UF_LIST = [\"AC\",\"AL\",\"AP\",\"AM\",\"BA\",\"CE\",\"DF\",\"ES\",\"GO\",\"MA\",\"MT\",\"MS\",\"MG\",\"PA\",\"PB\",\"PR\",\"PE\",\"PI\",\"RJ\",\"RN\",\"RS\",\"RO\",\"RR\",\"SC\",\"SP\",\"SE\",\"TO\"];\nconst EST2UF = {\"ACRE\":\"AC\",\"ALAGOAS\":\"AL\",\"AMAPA\":\"AP\",\"AMAPÁ\":\"AP\",\"AMAZONAS\":\"AM\",\"BAHIA\":\"BA\",\"CEARA\":\"CE\",\"CEARÁ\":\"CE\",\"DISTRITO FEDERAL\":\"DF\",\n\"ESPIRITO SANTO\":\"ES\",\"ESPÍRITO SANTO\":\"ES\",\"GOIAS\":\"GO\",\"GOIÁS\":\"GO\",\"MARANHAO\":\"MA\",\"MARANHÃO\":\"MA\",\"MATO GROSSO\":\"MT\",\"MATO GROSSO DO SUL\":\"MS\",\n\"MINAS GERAIS\":\"MG\",\"PARA\":\"PA\",\"PARÁ\":\"PA\",\"PARAIBA\":\"PB\",\"PARAÍBA\":\"PB\",\"PARANA\":\"PR\",\"PARANÁ\":\"PR\",\"PERNAMBUCO\":\"PE\",\"PIAUI\":\"PI\",\"PIAUÍ\":\"PI\",\n\"RIO DE JANEIRO\":\"RJ\",\"RIO GRANDE DO NORTE\":\"RN\",\"RIO GRANDE DO SUL\":\"RS\",\"RONDONIA\":\"RO\",\"RONDÔNIA\":\"RO\",\"RORAIMA\":\"RR\",\"SANTA CATARINA\":\"SC\",\n\"SAO PAULO\":\"SP\",\"SÃO PAULO\":\"SP\",\"SERGIPE\":\"SE\",\"TOCANTINS\":\"TO\"};\nfunction toUF(v){ if(!v) return ''; const u=rmA(String(v)).toUpperCase().trim(); if(UF_LIST.includes(u)) return u; if(EST2UF[u]) return EST2UF[u]; return ''; }\nfunction ufFromSindicatoText(txt){\n  const t=' '+rmA(String(txt||'')).toUpperCase()+' ';\n  for(const uf of UF_LIST){ if(t.includes(' '+uf+' ')) return uf; }\n  for(const [nome,code] of Object.entries(EST2UF)){ if(t.includes(' '+nome+' ')) return code; }\n  return '';\n}\n\n// índices\nconst ferByMat={}; for(const r of FERI){const m=get(r,['MATRICULA','REGISTRO','ID']);const i=toISOflex(get(r,['INICIO','DATA_INICIO','FERIAS_INICIO']));const f=toISOflex(get(r,['FIM','DATA_FIM','FERIAS_FIM']));if(m&&i&&f)(ferByMat[m]||=[]).push({i:new Date(i),f:new Date(f)});}\nconst admByMat={}, desByMat={}, commOK={};\nfor(const r of ADMIT){const m=get(r,['MATRICULA','REGISTRO','ID']);const d=toISOflex(get(r,['DATA_ADMISSAO','ADMISSAO']));if(m&&d)admByMat[m]=new Date(d);}\nfor(const r of DESL){const m=get(r,['MATRICULA','REGISTRO','ID']);const d=toISOflex(get(r,['DATA_DESLIGAMENTO','DESLIGAMENTO']));if(m&&d)desByMat[m]=new Date(d);const c=get(r,['COMUNICADO','COMUNICADO_OK','COMUNICADO_DE_DESLIGAMENTO']);if(m&&c)commOK[m]=/OK/i.test(c)?'OK':String(c);}\n\n// nomes\nfunction pickName(obj){\n  let best='';\n  for(const [k,v] of Object.entries(obj||{})){\n    if(v==null||v==='') continue;\n    const K=norm(k);\n    if(/CARGO|SINDIC|EMPRESA|MATRICULA|REGISTRO|ID|UF|ESTADO|DATA|ADMI|DESLI|FERI|VALOR/.test(K)) continue;\n    if(K.includes('NOME')||K.includes('COLABOR')||K.includes('FUNCION')){\n      const s=String(v).trim(); if(s && s.length>best.length) best=s;\n    }\n  }\n  return best;\n}\nconst nameByMat={};\nfor(const arr of [ATIVOS, ADMIT, DESL]) for(const r of arr){ const m=get(r,['MATRICULA','REGISTRO','ID']); const nm=pickName(r) || get(r,['NOME','NOME_COMPLETO','NOME_COLABORADOR','FUNCIONARIO','COLABORADOR']); if(m&&nm && !nameByMat[m]) nameByMat[m]=nm; }\n\n// valores por sindicato/UF\nconst normSind = s => rmA(String(s||'').toUpperCase()).replace(/[^A-Z0-9 ]/g,' ').replace(/\\s+/g,' ').trim();\nconst STOP=new Set(['SINDICATO','SIND','DOS','DAS','DO','DA','DE','TRAB','TRABALHADORES','EMP','EMPRESAS','PROC','DADOS','ESTADO',\n'RS','SP','SC','PR','RJ','ES','MG','BA','CE','PE','AM','PA','GO','DF','MS','MT','RO','RR','AP','AC','RN','PB','AL','SE','PI','MA','TO']);\nconst finger = s => normSind(s).split(' ').filter(t=>t && !STOP.has(t)).join(' ');\nconst idxSind=[], idxUF={};\nfor(const r of SINDB){\n  const sRaw = get(r,['SINDICATO','SINDICATO_NOME','SIND']) || '';\n  const uf    = toUF(get(r,['UF','ESTADO']) || '');\n  const val   = Number(get(r,['VALOR_DIARIO_VR','VALOR_DIA','VR_DIA','VALOR','VALOR_VR']));\n  if(!isNaN(val)){\n    if(sRaw) idxSind.push({key:normSind(sRaw), uf, fp:finger(sRaw), val});\n    if(uf && !(uf in idxUF)) idxUF[uf]=val;\n  }\n}\nfunction findValorDia(sindRaw, uf){\n  const k=normSind(sindRaw||''); const fp=finger(sindRaw||'');\n  let e=idxSind.find(x=>x.key===k && x.uf===uf); if(e) return {val:e.val, src:'SIND_EXACT'};\n  e=idxSind.find(x=>x.key===k && (!x.uf||x.uf==='')); if(e) return {val:e.val, src:'SIND_NO_UF'};\n  e=idxSind.find(x=>fp && x.fp && fp.includes(x.fp) && (!x.uf || x.uf===uf)); if(e) return {val:e.val, src:'SIND_FP1'};\n  e=idxSind.find(x=>fp && x.fp && x.fp.includes(fp) && (!x.uf || x.uf===uf)); if(e) return {val:e.val, src:'SIND_FP2'};\n  if(uf && idxUF[uf]!=null) return {val:idxUF[uf], src:'UF'};\n  return {val:NaN, src:'NONE'};\n}\n\n// elegibilidade\nfunction elegivel(a){\n  const cargo=rmA((get(a,['CARGO','TITULO_DO_CARGO'])||'').toUpperCase());\n  const tipo =rmA((get(a,['TIPO_CONTRATO','TIPO'])||'').toUpperCase());\n  const sit  =rmA((get(a,['SITUACAO','DESC_SITUACAO'])||'').toUpperCase());\n  const loc  =rmA((get(a,['LOCALIDADE','LOCAL','PAIS'])||'').toUpperCase());\n  if(/DIRETOR/.test(cargo)) return false;\n  if(/ESTAGIAR|APRENDIZ/.test(tipo)) return false;\n  if(/AFAST|LICENC/.test(sit)) return false;\n  if(/EXTERIOR|INTERNACIONAL/.test(loc)) return false;\n  return true;\n}\n\n// cálculo mensal\nconst out=[];\nfor(const a of ATIVOS){\n  if(!elegivel(a)) continue;\n\n  const m = get(a,['MATRICULA','REGISTRO','ID']); if(!m) continue;\n  const nome = nameByMat[m] || pickName(a) || get(a,['NOME','NOME_COMPLETO','NOME_COLABORADOR','FUNCIONARIO','COLABORADOR']) || '';\n\n  const sindRaw = get(a,['SINDICATO','SINDICATO_NOME','SIND']) || '';\n  let uf = toUF(get(a,['UF','ESTADO'])) || ufFromSindicatoText(sindRaw);\n\n  const bS = new Date(Math.max(+first, +(admByMat[m]||first)));\n  const bE = new Date(Math.min(+last,  +(desByMat[m]||last)));\n\n  let dias=0;\n  if (isFinite(bS)&&isFinite(bE)&&bS<=bE) dias=bDays(bS.toISOString().slice(0,10),bE.toISOString().slice(0,10));\n  if (commOK[m]==='OK' && desByMat[m]){ const d=desByMat[m]; if(d.getFullYear()===yy&&d.getMonth()===(mm-1)&&d.getDate()<=cutoff) dias=0; }\n  for(const f of (ferByMat[m]||[])) dias -= overlap(bS,bE,f.i,f.f);\n  dias = Math.max(0,dias);\n\n  const {val:foundVal, src} = findValorDia(sindRaw, uf);\n  let valDia = foundVal;\n  if (isNaN(valDia)) valDia = Number(get(a,['VALOR_DIARIO_VR','VR_DIA','VALOR_DIA','VALOR','VALOR_VR'])) || 0;\n\n  const vr  = +(dias * valDia).toFixed(2);\n  const emp = +(vr * pEmp).toFixed(2);\n  const col = +(vr * pCol).toFixed(2);\n\n  const obs = [];\n  if (commOK[m]==='OK') obs.push('Desligamento comunicado');\n  if (src==='UF')       obs.push('Valor via UF');\n  if (!uf)              obs.push('UF não identificada');\n\n  out.push({\n    MATRICULA:m, NOME:nome, SINDICATO:sindRaw, UF:uf, COMPETENCIA:competencia,\n    DIAS_UTEIS_CALCULADOS:dias, VALOR_DIARIO_VR:+(+valDia||0).toFixed(2),\n    VR_TOTAL:vr, CUSTO_EMPRESA:emp, DESCONTO_COLABORADOR:col, OBS:obs.join(' | ')\n  });\n}\n\n// 1 saída (lista de itens)\nreturn out.map(j => ({ json: j }));\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -560,
+        -540
+      ],
+      "id": "a41a24e6-ba76-47b5-8fa3-e4f6c0e501c6",
+      "name": "Consolidar & Calcular1",
+      "alwaysOutputData": true,
+      "notesInFlow": true,
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "jsCode": "return Object.keys(items[0].binary).map(key => {\n  return {\n    binary: {\n      data: items[0].binary[key]\n    }\n  };\n});\n"
+      },
+      "id": "df2d37cd-c306-4047-8677-9657728b27b8",
+      "name": "Explode",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2620,
+        -1400
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Busca dos arquivos\n**Nessa etapa buscamos o arquivo no google drive\nSe tiver zipado, descompactamos",
+        "height": 320,
+        "width": 1060,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -3420,
+        -1520
+      ],
+      "typeVersion": 1,
+      "id": "ce5b6a53-1b12-49f7-9bb3-6481e9e27217",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Leitura de cada arquivo\n**Realizamos a leitura e separação de cada arquivo",
+        "height": 1160,
+        "width": 1760,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -2580,
+        -1180
+      ],
+      "typeVersion": 1,
+      "id": "1263afad-4a8e-4091-9565-f3b298bfb02e",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "jsCode": "// ===== VR_Validações (1 saída) =====\n// (mesmos helpers e índices do VR_Mensal; mantidos aqui para o node ser independente)\n\nconst rmA = s => (s ?? '').toString().normalize('NFD').replace(/[\\u0300-\\u036f]/g,'');\nconst norm = k => rmA(String(k||'')).toUpperCase().trim().replace(/\\s+/g,'_');\nconst get = (row, keys)=>{const m={};Object.keys(row||{}).forEach(k=>m[norm(k)]=row[k]);for(const k of keys){const v=m[norm(k)];if(v!==undefined&&v!==null&&v!=='')return String(v).trim();}return undefined;};\n\nfunction excelSerialToDate(n){ const base = new Date(Date.UTC(1899,11,30)); return new Date(base.getTime() + Number(n)*86400000); }\nfunction toISOflex(v){\n  if (v == null || v === '') return null;\n  if (!isNaN(v) && String(v).trim() !== '') { const n = Number(v); if (n > 20000 && n < 80000) return excelSerialToDate(n).toISOString().slice(0,10); }\n  const d = new Date(v); if (!isNaN(d)) return d.toISOString().slice(0,10);\n  return null;\n}\n\nconst p = items[0]?.json || {};\nconst competencia = p.competencia || 'YYYY-MM';\nconst [yy,mm] = competencia.split('-').map(Number);\nconst first = new Date(yy, mm-1, 1), last = new Date(yy, mm, 0);\nconst cutoff = 15;\n\nconst feriados = Array.isArray(p.feriados) ? p.feriados : [];\nconst isHoliday = iso => feriados.includes(iso);\nfunction bDays(s,e){let d=new Date(s),f=new Date(e),c=0;while(d<=f){const w=d.getDay(),iso=d.toISOString().slice(0,10);if(w>=1&&w<=5&&!isHoliday(iso))c++;d.setDate(d.getDate()+1);}return c;}\nfunction overlap(aS,aE,bS,bE){const s=new Date(Math.max(+aS,+bS));const e=new Date(Math.min(+aE,+bE));if(s>e)return 0;return bDays(s.toISOString().slice(0,10),e.toISOString().slice(0,10));}\n\nconst ATIVOS = Array.isArray(p.ativos)?p.ativos:[];\nconst FERI   = Array.isArray(p.ferias)?p.ferias:[];\nconst DESL   = Array.isArray(p.desligados)?p.desligados:[];\nconst ADMIT  = Array.isArray(p.admitidos)?p.admitidos:[];\nconst SINDB  = Array.isArray(p.sindicato_valor)?p.sindicato_valor:[];\n\nconst UF_LIST = [\"AC\",\"AL\",\"AP\",\"AM\",\"BA\",\"CE\",\"DF\",\"ES\",\"GO\",\"MA\",\"MT\",\"MS\",\"MG\",\"PA\",\"PB\",\"PR\",\"PE\",\"PI\",\"RJ\",\"RN\",\"RS\",\"RO\",\"RR\",\"SC\",\"SP\",\"SE\",\"TO\"];\nconst EST2UF = {\"ACRE\":\"AC\",\"ALAGOAS\":\"AL\",\"AMAPA\":\"AP\",\"AMAPÁ\":\"AP\",\"AMAZONAS\":\"AM\",\"BAHIA\":\"BA\",\"CEARA\":\"CE\",\"CEARÁ\":\"CE\",\"DISTRITO FEDERAL\":\"DF\",\n\"ESPIRITO SANTO\":\"ES\",\"ESPÍRITO SANTO\":\"ES\",\"GOIAS\":\"GO\",\"GOIÁS\":\"GO\",\"MARANHAO\":\"MA\",\"MARANHÃO\":\"MA\",\"MATO GROSSO\":\"MT\",\"MATO GROSSO DO SUL\":\"MS\",\n\"MINAS GERAIS\":\"MG\",\"PARA\":\"PA\",\"PARÁ\":\"PA\",\"PARAIBA\":\"PB\",\"PARAÍBA\":\"PB\",\"PARANA\":\"PR\",\"PARANÁ\":\"PR\",\"PERNAMBUCO\":\"PE\",\"PIAUI\":\"PI\",\"PIAUÍ\":\"PI\",\n\"RIO DE JANEIRO\":\"RJ\",\"RIO GRANDE DO NORTE\":\"RN\",\"RIO GRANDE DO SUL\":\"RS\",\"RONDONIA\":\"RO\",\"RONDÔNIA\":\"RO\",\"RORAIMA\":\"RR\",\"SANTA CATARINA\":\"SC\",\n\"SAO PAULO\":\"SP\",\"SÃO PAULO\":\"SP\",\"SERGIPE\":\"SE\",\"TOCANTINS\":\"TO\"};\nfunction toUF(v){ if(!v) return ''; const u=rmA(String(v)).toUpperCase().trim(); if(UF_LIST.includes(u)) return u; if(EST2UF[u]) return EST2UF[u]; return ''; }\nfunction ufFromSindicatoText(txt){\n  const t=' '+rmA(String(txt||'')).toUpperCase()+' ';\n  for(const uf of UF_LIST){ if(t.includes(' '+uf+' ')) return uf; }\n  for(const [nome,code] of Object.entries(EST2UF)){ if(t.includes(' '+nome+' ')) return code; }\n  return '';\n}\n\nconst ferByMat={}; for(const r of FERI){const m=get(r,['MATRICULA','REGISTRO','ID']);const i=toISOflex(get(r,['INICIO','DATA_INICIO','FERIAS_INICIO']));const f=toISOflex(get(r,['FIM','DATA_FIM','FERIAS_FIM']));if(m&&i&&f)(ferByMat[m]||=[]).push({i:new Date(i),f:new Date(f)});}\nconst admByMat={}, desByMat={}, commOK={};\nfor(const r of ADMIT){const m=get(r,['MATRICULA','REGISTRO','ID']);const d=toISOflex(get(r,['DATA_ADMISSAO','ADMISSAO']));if(m&&d)admByMat[m]=new Date(d);}\nfor(const r of DESL){const m=get(r,['MATRICULA','REGISTRO','ID']);const d=toISOflex(get(r,['DATA_DESLIGAMENTO','DESLIGAMENTO']));if(m&&d)desByMat[m]=new Date(d);const c=get(r,['COMUNICADO','COMUNICADO_OK','COMUNICADO_DE_DESLIGAMENTO']);if(m&&c)commOK[m]=/OK/i.test(c)?'OK':String(c);}\n\nfunction pickName(obj){\n  let best='';\n  for(const [k,v] of Object.entries(obj||{})){\n    if(v==null||v==='') continue;\n    const K=norm(k);\n    if(/CARGO|SINDIC|EMPRESA|MATRICULA|REGISTRO|ID|UF|ESTADO|DATA|ADMI|DESLI|FERI|VALOR/.test(K)) continue;\n    if(K.includes('NOME')||K.includes('COLABOR')||K.includes('FUNCION')){\n      const s=String(v).trim(); if(s && s.length>best.length) best=s;\n    }\n  }\n  return best;\n}\nconst nameByMat={};\nfor(const arr of [ATIVOS, ADMIT, DESL]) for(const r of arr){ const m=get(r,['MATRICULA','REGISTRO','ID']); const nm=pickName(r) || get(r,['NOME','NOME_COMPLETO','NOME_COLABORADOR','FUNCIONARIO','COLABORADOR']); if(m&&nm && !nameByMat[m]) nameByMat[m]=nm; }\n\nconst normSind = s => rmA(String(s||'').toUpperCase()).replace(/[^A-Z0-9 ]/g,' ').replace(/\\s+/g,' ').trim();\nconst STOP=new Set(['SINDICATO','SIND','DOS','DAS','DO','DA','DE','TRAB','TRABALHADORES','EMP','EMPRESAS','PROC','DADOS','ESTADO',\n'RS','SP','SC','PR','RJ','ES','MG','BA','CE','PE','AM','PA','GO','DF','MS','MT','RO','RR','AP','AC','RN','PB','AL','SE','PI','MA','TO']);\nconst finger = s => normSind(s).split(' ').filter(t=>t && !STOP.has(t)).join(' ');\nconst idxSind=[], idxUF={};\nfor(const r of SINDB){\n  const sRaw = get(r,['SINDICATO','SINDICATO_NOME','SIND']) || '';\n  const uf    = toUF(get(r,['UF','ESTADO']) || '');\n  const val   = Number(get(r,['VALOR_DIARIO_VR','VALOR_DIA','VR_DIA','VALOR','VALOR_VR']));\n  if(!isNaN(val)){\n    if(sRaw) idxSind.push({key:normSind(sRaw), uf, fp:finger(sRaw), val});\n    if(uf && !(uf in idxUF)) idxUF[uf]=val;\n  }\n}\nfunction findValorDia(sindRaw, uf){\n  const k=normSind(sindRaw||''); const fp=finger(sindRaw||'');\n  let e=idxSind.find(x=>x.key===k && x.uf===uf); if(e) return {val:e.val, src:'SIND_EXACT'};\n  e=idxSind.find(x=>x.key===k && (!x.uf||x.uf==='')); if(e) return {val:e.val, src:'SIND_NO_UF'};\n  e=idxSind.find(x=>fp && x.fp && fp.includes(x.fp) && (!x.uf || x.uf===uf)); if(e) return {val:e.val, src:'SIND_FP1'};\n  e=idxSind.find(x=>fp && x.fp && x.fp.includes(fp) && (!x.uf || x.uf===uf)); if(e) return {val:e.val, src:'SIND_FP2'};\n  if(uf && idxUF[uf]!=null) return {val:idxUF[uf], src:'UF'};\n  return {val:NaN, src:'NONE'};\n}\n\nfunction elegivel(a){\n  const cargo=rmA((get(a,['CARGO','TITULO_DO_CARGO'])||'').toUpperCase());\n  const tipo =rmA((get(a,['TIPO_CONTRATO','TIPO'])||'').toUpperCase());\n  const sit  =rmA((get(a,['SITUACAO','DESC_SITUACAO'])||'').toUpperCase());\n  const loc  =rmA((get(a,['LOCALIDADE','LOCAL','PAIS'])||'').toUpperCase());\n  if(/DIRETOR/.test(cargo)) return false;\n  if(/ESTAGIAR|APRENDIZ/.test(tipo)) return false;\n  if(/AFAST|LICENC/.test(sit)) return false;\n  if(/EXTERIOR|INTERNACIONAL/.test(loc)) return false;\n  return true;\n}\n\n// validações\nconst issues=[];\nfor(const a of ATIVOS){\n  if(!elegivel(a)) continue;\n\n  const m = get(a,['MATRICULA','REGISTRO','ID']); if(!m) continue;\n  const nome = nameByMat[m] || pickName(a) || get(a,['NOME','NOME_COMPLETO','NOME_COLABORADOR','FUNCIONARIO','COLABORADOR']) || '';\n\n  const sindRaw = get(a,['SINDICATO','SINDICATO_NOME','SIND']) || '';\n  let uf = toUF(get(a,['UF','ESTADO'])) || ufFromSindicatoText(sindRaw);\n\n  const bS = new Date(Math.max(+first, +(admByMat[m]||first)));\n  const bE = new Date(Math.min(+last,  +(desByMat[m]||last)));\n\n  let dias=0;\n  if (isFinite(bS)&&isFinite(bE)&&bS<=bE) dias=bDays(bS.toISOString().slice(0,10),bE.toISOString().slice(0,10));\n  if (commOK[m]==='OK' && desByMat[m]){ const d=desByMat[m]; if(d.getFullYear()===yy&&d.getMonth()===(mm-1)&&d.getDate()<=cutoff) dias=0; }\n  for(const f of (ferByMat[m]||[])) dias -= overlap(bS,bE,f.i,f.f);\n  dias = Math.max(0,dias);\n\n  const {val:foundVal} = findValorDia(sindRaw, uf);\n  let valDia = foundVal;\n  if (isNaN(valDia)) valDia = Number(get(a,['VALOR_DIARIO_VR','VR_DIA','VALOR_DIA','VALOR','VALOR_VR'])) || 0;\n\n  if (!sindRaw)    issues.push({MATRICULA:m, NOME:nome, REGRA:'Sem sindicato',                        DETALHE:'Preencher sindicato'});\n  if (!uf)         issues.push({MATRICULA:m, NOME:nome, REGRA:'UF não identificada',                 DETALHE:'Informar UF/Estado no cadastro'});\n  if (!(valDia>0)) issues.push({MATRICULA:m, NOME:nome, REGRA:'Valor diário VR ausente/<=0',         DETALHE:'Ver tabela de valores por sindicato/UF'});\n  if (dias===0)    issues.push({MATRICULA:m, NOME:nome, REGRA:'Dias úteis = 0',                      DETALHE:'Checar admissão/desligamento/férias ou cutoff'});\n}\n\nreturn issues.map(j => ({ json: j }));\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -600,
+        -300
+      ],
+      "id": "9f2bfb79-aece-418a-8c8a-3f7c91422079",
+      "name": "VR_Validações",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "inputDataFieldName": "file",
+        "name": "={{ $json.fileName }}",
+        "driveId": {
+          "__rl": true,
+          "value": "My Drive",
+          "mode": "list",
+          "cachedResultName": "My Drive",
+          "cachedResultUrl": "https://drive.google.com/drive/my-drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1uTDyjHh0vLPFB05nvENpNi365-4LU2Wb",
+          "mode": "list",
+          "cachedResultName": "I2A2 - Desafio ",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1uTDyjHh0vLPFB05nvENpNi365-4LU2Wb"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -200,
+        -540
+      ],
+      "id": "c7a3e6fb-2ff0-40bc-9fa2-1590071a8c79",
+      "name": "Google Drive",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "hybUCeYXbV4apE5k",
+          "name": "Google Drive account Intelligentio.111111 Imobiliaria"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "inputDataFieldName": "file_validacoes",
+        "name": "={{$binary.file_validacoes.fileName}}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1uTDyjHh0vLPFB05nvENpNi365-4LU2Wb",
+          "mode": "list",
+          "cachedResultName": "I2A2 - Desafio ",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1uTDyjHh0vLPFB05nvENpNi365-4LU2Wb"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -200,
+        -300
+      ],
+      "id": "0d42861c-c340-441d-b986-6507f786423c",
+      "name": "Google Drive1",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "hybUCeYXbV4apE5k",
+          "name": "Google Drive account Intelligentio.111111 Imobiliaria"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Calculo e Gravação\n**Double click** to edit me. [Guide](https://docs.n8n.io/workflows/sticky-notes/)",
+        "height": 660,
+        "width": 1000
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -800,
+        -680
+      ],
+      "typeVersion": 1,
+      "id": "84da61a0-fbca-4b4a-89ef-021e17eda5e7",
+      "name": "Sticky Note9"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        -20,
+        -420
+      ],
+      "id": "8519ef04-a130-4c87-84ce-5082082b5245",
+      "name": "No Operation, do nothing"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Drive Trigger": {
+      "main": [
+        [
+          {
+            "node": "IF mime is zip1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ensure Binary FERIAS": {
+      "main": [
+        [
+          {
+            "node": "Read FERIAS1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ensure Binary DESLIGADOS": {
+      "main": [
+        [
+          {
+            "node": "Read DESLIGADOS1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ensure Binary ADMITIDOS": {
+      "main": [
+        [
+          {
+            "node": "Read ADMITIDOS1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ensure Binary SINDICATO": {
+      "main": [
+        [
+          {
+            "node": "Read SINDICATO1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF mime is zip1": {
+      "main": [
+        [
+          {
+            "node": "Google Drive (Download)1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Google Drive (Download)1": {
+      "main": [
+        [
+          {
+            "node": "Compression (Decompress)1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Compression (Decompress)1": {
+      "main": [
+        [
+          {
+            "node": "Explode",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF ATIVOS1": {
+      "main": [
+        [
+          {
+            "node": "Ensure Binary FERIAS1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "IF FERIAS1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF FERIAS1": {
+      "main": [
+        [
+          {
+            "node": "Ensure Binary FERIAS",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "IF DESLIGADOS1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF DESLIGADOS1": {
+      "main": [
+        [
+          {
+            "node": "Ensure Binary DESLIGADOS",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "IF ADMITIDOS1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF ADMITIDOS1": {
+      "main": [
+        [
+          {
+            "node": "Ensure Binary ADMITIDOS",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "IF SINDICATO1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF SINDICATO1": {
+      "main": [
+        [
+          {
+            "node": "Ensure Binary SINDICATO",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read ATIVOS1": {
+      "main": [
+        [
+          {
+            "node": "Tag ATIVOS1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read FERIAS1": {
+      "main": [
+        [
+          {
+            "node": "Tag FERIAS1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read DESLIGADOS1": {
+      "main": [
+        [
+          {
+            "node": "Tag DESLIGADOS1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read ADMITIDOS1": {
+      "main": [
+        [
+          {
+            "node": "Tag ADMITIDOS1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read SINDICATO1": {
+      "main": [
+        [
+          {
+            "node": "Tag SINDICATO1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tag ATIVOS1": {
+      "main": [
+        [
+          {
+            "node": "Merge ",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tag FERIAS1": {
+      "main": [
+        [
+          {
+            "node": "Merge ",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Tag DESLIGADOS1": {
+      "main": [
+        [
+          {
+            "node": "Merge 5",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Tag ADMITIDOS1": {
+      "main": [
+        [
+          {
+            "node": "Merge 6",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Tag SINDICATO1": {
+      "main": [
+        [
+          {
+            "node": "Merge 7",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge ": {
+      "main": [
+        [
+          {
+            "node": "Merge 5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge 5": {
+      "main": [
+        [
+          {
+            "node": "Merge 6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge 6": {
+      "main": [
+        [
+          {
+            "node": "Merge 7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ensure Binary FERIAS1": {
+      "main": [
+        [
+          {
+            "node": "Read ATIVOS1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge 7": {
+      "main": [
+        [
+          {
+            "node": "Build Payload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Payload": {
+      "main": [
+        [
+          {
+            "node": "VR_Validações",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Consolidar & Calcular1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gerar CSV Resultado": {
+      "main": [
+        [
+          {
+            "node": "Google Drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validações + CSV": {
+      "main": [
+        [
+          {
+            "node": "Google Drive1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Explode": {
+      "main": [
+        [
+          {
+            "node": "IF ATIVOS1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Consolidar & Calcular1": {
+      "main": [
+        [
+          {
+            "node": "Gerar CSV Resultado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "VR_Validações": {
+      "main": [
+        [
+          {
+            "node": "Validações + CSV",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive1": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "110a7b60-6d60-4dd6-8823-3ffd50f1e6cb",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "4cabbf7f80c097b361d10fe88a6fa5f3354fd7a067326825b9a13de01c8a5a97"
+  },
+  "id": "GQzJbZvdk4WAi0NK",
+  "tags": []
+}
